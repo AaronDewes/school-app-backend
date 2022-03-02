@@ -13,3 +13,4 @@
 node_modules
 mongo.pem
 .vercel
+.env

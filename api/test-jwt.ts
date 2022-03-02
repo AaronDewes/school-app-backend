@@ -6,7 +6,12 @@ const handler = validateMiddleware(
   [],
   "jwt",
   async (req, res) => {
-    res.json(jwt.verify(req.headers.authorization, "NotVerySecretYet"));
+    if(!req.headers.authorization)
+      return res.status(400).json({error: "No Authorization header provided"});
+    const authKey = req.headers.authorization.split(' ')[1];
+    if(!authKey)
+      return res.status(400).json({error: "Authorization header badly formatted"});
+    res.json(jwt.verify(req.headers.authorization, process.env.JWT_SECRET));
   }
 );
 

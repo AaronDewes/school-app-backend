@@ -14,7 +14,7 @@ const handler = validateMiddleware(
       if (!(await isValidLogin(req.body.username, req.body.password, client)))
         return res.status(401).json({ error: "Invalid password." });
       res.json({
-        jwt: jwt.sign({ username: req.body.username }, "NotVerySecretYet"),
+        jwt: jwt.sign({ username: req.body.username }, process.env.JWT_SECRET),
       });
     });
   }
