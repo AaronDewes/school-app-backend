@@ -13,9 +13,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const data = await clientQuery(async (client) => {
         let db = client.db("users");
         let collection = db.collection("credentials");
-        if(!req.body.username || !req.body.password) {
-            res.status(400).json({"error": `${req.body.username ? "password" : "username"} is missing`});
-            return;
+        const params = ["username", "firstName", "lastName", "password", "email"];
+        for (const param of params) {
+            if(!req.body || !req.body[param]) {
+                res.status(400).json({error: `Request body is missing ${param}`});
+                return;
+            }
         }
         let existingUsers = await collection.findOne<userDocument>({
             username: req.body.username
@@ -25,10 +28,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return;
         }
         await collection.insertOne({
-            firstName: "Aaron",
-            lastName: "Dewes",
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
             hashedPassword: hashSync(req.body.password, BCRYPT_ROUNDS),
             username: req.body.username,
+            email: req.body.email,
         });
         return await collection.findOne<userDocument>({
             username: req.body.username
