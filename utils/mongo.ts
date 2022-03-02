@@ -1,10 +1,13 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
-const credentials = '/workspace/school-app-backend/mongo.pem';
-const client = new MongoClient('mongodb+srv://cluster0.zegm9.mongodb.net/myFirstDatabase?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority', {
-  sslKey: credentials,
-  sslCert: credentials,
-  serverApi: ServerApiVersion.v1
-});
+import { MongoClient, ServerApiVersion } from "mongodb";
+const credentials = "/workspace/school-app-backend/mongo.pem";
+const client = new MongoClient(
+  "mongodb+srv://cluster0.zegm9.mongodb.net/myFirstDatabase?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority",
+  {
+    sslKey: credentials,
+    sslCert: credentials,
+    serverApi: ServerApiVersion.v1,
+  }
+);
 async function run() {
   try {
     await client.connect();
@@ -20,7 +23,9 @@ async function run() {
 }
 //run().catch(console.dir);
 
-async function clientQuery<ReturnType = unknown>(func: (client: MongoClient) => ReturnType | Promise<ReturnType>): Promise<ReturnType> {
+async function clientQuery<ReturnType = unknown>(
+  func: (client: MongoClient) => ReturnType | Promise<ReturnType>
+): Promise<ReturnType> {
   let data;
   try {
     await client.connect();
