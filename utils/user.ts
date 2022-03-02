@@ -1,15 +1,16 @@
 import { MongoClient } from "mongodb";
-import { userDocument } from "../types";
+import { personalData, userDocument } from "../types";
 import { verify } from "@node-rs/bcrypt";
 
 export async function userExists(
   username: string,
   client: MongoClient
 ): Promise<boolean> {
-  return !!(await client
+  const existingUser = await client
     .db("users")
     .collection<userDocument>("credentials")
-    .findOne({ username }));
+    .findOne({ username });
+  return !!existingUser;
 }
 
 export async function isValidLogin(
@@ -23,4 +24,13 @@ export async function isValidLogin(
     .findOne({ username });
   if (!user) return false;
   return await verify(password, user.hashedPassword);
+}
+
+export async function setData(
+  username: string,
+  data: Partial<personalData>,
+  client: MongoClient
+) {
+  let dataCollection = client.db("users").collection<personalData>("userData");
+  await dataCollection.findOneAndUpdate({ username }, { $set: data });
 }
