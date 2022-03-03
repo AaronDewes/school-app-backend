@@ -2,7 +2,7 @@
   "name": "school-app-backend",
   "packageManager": "yarn@3.2.0",
   "scripts": {
-    "dev": "vercel dev",
+    "vdev": "vercel dev",
     "lint": "eslint  --fix . && prettier -w **/*.ts"
   },
   "dependencies": {

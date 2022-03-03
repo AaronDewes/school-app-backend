@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { isValidLogin, userExists } from "../utils/user";
+import { isValidLogin } from "../utils/user";
 import { validateMiddleware } from "../utils/validate";
 
 export default validateMiddleware(
@@ -8,18 +8,20 @@ export default validateMiddleware(
   [], // Optional allowed body parameters
   "none", // Requires auth
   async (req, res) => {
-    if (!(await userExists(req.body.username, req.mongoClient)))
+    const isValid = await isValidLogin(
+      req.body.username,
+      req.body.password,
+      req.mongoClient
+    );
+    if (isValid === null)
       return res.status(401).json({ error: "No user with this name exists" });
-    if (
-      !(await isValidLogin(
-        req.body.username,
-        req.body.password,
-        req.mongoClient
-      ))
-    )
+    else if (!isValid)
       return res.status(401).json({ error: "Invalid password." });
     res.json({
-      jwt: jwt.sign({ username: req.body.username }, process.env.JWT_SECRET),
+      jwt: jwt.sign(
+        { username: req.body.username, id: isValid._id },
+        process.env.JWT_SECRET
+      ),
     });
   }
 );
