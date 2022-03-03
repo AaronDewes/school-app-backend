@@ -229,7 +229,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsonwebtoken@npm:^8":
+"@types/jsonwebtoken@npm:^8.5.8":
   version: 8.5.8
   resolution: "@types/jsonwebtoken@npm:8.5.8"
   dependencies:
@@ -254,7 +254,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prettier@npm:^2":
+"@types/prettier@npm:^2.4.4":
   version: 2.4.4
   resolution: "@types/prettier@npm:2.4.4"
   checksum: 2c2cc57efd49c7d8907415a72f96c84a6dd8696dd3bf8aa4ca3a667427bebf71cbfbc912673624bdfc935d272d1c008c639cf155f6449315990a4dc110f0d216
@@ -1938,9 +1938,9 @@ __metadata:
   resolution: "school-app-backend@workspace:."
   dependencies:
     "@node-rs/bcrypt": ^1.6.0
-    "@types/jsonwebtoken": ^8
+    "@types/jsonwebtoken": ^8.5.8
     "@types/node": ^17.0.21
-    "@types/prettier": ^2
+    "@types/prettier": ^2.4.4
     "@typescript-eslint/eslint-plugin": ^5.13.0
     "@typescript-eslint/parser": ^5.13.0
     "@vercel/node": ^1.13.0

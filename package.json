@@ -11,9 +11,9 @@
     "mongodb": "^4.4.0"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^8",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "^17.0.21",
-    "@types/prettier": "^2",
+    "@types/prettier": "^2.4.4",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.13.0",
     "@vercel/node": "^1.13.0",
