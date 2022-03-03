@@ -31,6 +31,8 @@ export async function setData(
   data: Partial<personalData>,
   client: MongoClient
 ) {
-  let dataCollection = client.db("users").collection<personalData>("userData");
+  const dataCollection = client
+    .db("users")
+    .collection<personalData>("userData");
   await dataCollection.findOneAndUpdate({ username }, { $set: data });
 }

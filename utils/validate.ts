@@ -25,6 +25,7 @@ export function validateBody(
 }
 
 type AuthAdditions = {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   none: {};
   jwt: {
     userJwt: string;
@@ -67,7 +68,7 @@ export function validateMiddleware<
           .status(400)
           .json({ error: "Authorization header badly formatted" });
       try {
-        let data = jwt.verify(authKey, process.env.JWT_SECRET, {
+        const data = jwt.verify(authKey, process.env.JWT_SECRET, {
           maxAge: "1y",
         });
         (req as VercelRequest & Partial<AuthAdditions["jwt"]>).userJwt =

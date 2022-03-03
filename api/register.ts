@@ -1,4 +1,3 @@
-import { VercelRequest, VercelResponse } from "@vercel/node";
 import { personalData, userDocument } from "../types";
 import { hashSync } from "@node-rs/bcrypt";
 import { validateMiddleware } from "../utils/validate";
@@ -15,9 +14,9 @@ export default validateMiddleware(
     if (req.method !== "POST")
       return res.status(400).json({ error: "Method not supported" });
     res.setHeader("Content-Type", "application/json");
-    let db = req.mongoClient.db("users");
-    let credentialsCollection = db.collection<userDocument>("credentials");
-    let userDataCollection = db.collection<personalData>("userData");
+    const db = req.mongoClient.db("users");
+    const credentialsCollection = db.collection<userDocument>("credentials");
+    const userDataCollection = db.collection<personalData>("userData");
     if (await userExists(req.body.username, req.mongoClient)) {
       res.status(400).json({ error: "User already exists" });
       return;
