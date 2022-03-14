@@ -16,13 +16,17 @@ export default validateMiddleware(
       .db("users")
       .collection<personalData>("userData")
       .createIndex({ username: 1 });
-    await req.mongoClient.db("caches").collection("timetables").drop();
-    const collections = await req.mongoClient.db("timetables").collections();
-    const teachers: Record<string, Record<number, {
+    try{
+      await req.mongoClient.db("caches").collection("timetables").drop();
+    } catch {
+      console.log("Couldn't drop");
+    }
+      const collections = await req.mongoClient.db("timetables").collections();
+    const teachers: Record<string, Record<number, Record<number, {
       class: string;
       room: string;
       subject: string;
-    }>> = {};
+    }>>> = {};
     for(const collection of collections) {
       const name = collection.collectionName;
       const findCursor = await collection.find().sort({date:-1}).limit(1) as FindCursor<WithId<{
@@ -34,12 +38,15 @@ export default validateMiddleware(
         class: name,
         data: actualData.data,
       });
-      for(const day of actualData.data) {
+      for(const [dayNumber, day] of actualData.data.entries()) {
         for(const [index, lesson] of day.entries()) {
           if(!teachers[lesson.teacher]) {
             teachers[lesson.teacher] = {};
           }
-          teachers[lesson.teacher][index] = {
+          if(!teachers[lesson.teacher][dayNumber]) {
+            teachers[lesson.teacher][dayNumber] = {};
+          }
+          teachers[lesson.teacher][dayNumber][index] = {
             class: name,
             room: lesson.room,
             subject: lesson.subject,
@@ -47,7 +54,12 @@ export default validateMiddleware(
         }
       }
     }
-    req.mongoClient.db("caches")
+    for(const teacherName of Object.keys(teachers)) {
+      await req.mongoClient.db("caches").collection("timetables").insertOne({
+        teacher: teacherName,
+        data: teachers[teacherName],
+      });
+    }
     res.json({success: true});
   }
 );

@@ -12,9 +12,10 @@ export default validateMiddleware(
       date: number;
       data: Lesson[][];
     }>(req.body.class);
-    collection.insertOne({
+    await collection.insertOne({
       date: Date.now(),
       data: req.body.timetableData,
     });
+    res.json("Done!")
   }
 );
