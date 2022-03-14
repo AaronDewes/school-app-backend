@@ -1,11 +1,12 @@
-import { personalData, userDocument } from "../types";
+import { FindCursor, WithId } from "mongodb";
+import { Lesson, personalData, userDocument } from "../types";
 import { validateMiddleware } from "../utils/validate";
 
 export default validateMiddleware(
   "POST", // method
   [], // Required parameters in query
   [], // Optional allowed query parameters
-  "jwt", // Requires auth
+  "adminJwt", // Requires auth
   async (req, res) => {
     await req.mongoClient
       .db("users")
@@ -15,6 +16,38 @@ export default validateMiddleware(
       .db("users")
       .collection<personalData>("userData")
       .createIndex({ username: 1 });
+    await req.mongoClient.db("caches").collection("timetables").drop();
+    const collections = await req.mongoClient.db("timetables").collections();
+    const teachers: Record<string, Record<number, {
+      class: string;
+      room: string;
+      subject: string;
+    }>> = {};
+    for(const collection of collections) {
+      const name = collection.collectionName;
+      const findCursor = await collection.find().sort({date:-1}).limit(1) as FindCursor<WithId<{
+        date: number;
+        data: Lesson[][];
+        }>>;
+      const actualData = (await findCursor.toArray())[0];
+      await req.mongoClient.db("caches").collection("timetables").insertOne({
+        class: name,
+        data: actualData.data,
+      });
+      for(const day of actualData.data) {
+        for(const [index, lesson] of day.entries()) {
+          if(!teachers[lesson.teacher]) {
+            teachers[lesson.teacher] = {};
+          }
+          teachers[lesson.teacher][index] = {
+            class: name,
+            room: lesson.room,
+            subject: lesson.subject,
+          };
+        }
+      }
+    }
+    req.mongoClient.db("caches")
     res.json({success: true});
   }
 );

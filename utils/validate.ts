@@ -31,6 +31,10 @@ type AuthAdditions = {
     userJwt: string;
     username: string;
   };
+  adminJwt: {
+    userJwt: string;
+    username: string;
+  };
 };
 
 export function validateMiddleware<
@@ -57,7 +61,7 @@ export function validateMiddleware<
     if (validationResult !== true)
       return res.status(400).json(validationResult);
 
-    if (auth === "jwt") {
+    if (auth === "jwt" || auth === "adminJwt") {
       if (!req.headers.authorization)
         return res
           .status(400)
@@ -71,6 +75,7 @@ export function validateMiddleware<
         const data = jwt.verify(authKey, process.env.JWT_SECRET, {
           maxAge: "1y",
         });
+        if(auth === "adminJwt" && (data as { role?: string }).role !== "admin")
         (req as VercelRequest & Partial<AuthAdditions["jwt"]>).userJwt =
           req.headers.authorization.split(" ")[1];
         (req as VercelRequest & Partial<AuthAdditions["jwt"]>).username = (

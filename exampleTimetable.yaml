@@ -1,0 +1,65 @@
+-
+  - teacher: aa
+    room: 1
+    subject: maths
+  - teacher: ab
+    room: 2
+    subject: more maths
+  - teacher: ac
+    room: 3
+    subject: even more maths maths
+  - teacher: ad
+    room: 4
+    subject: enough maths for today
+-
+  - teacher: aa
+    room: 1
+    subject: maths
+  - teacher: ab
+    room: 2
+    subject: more maths
+  - teacher: ac
+    room: 3
+    subject: even more maths maths
+  - teacher: ad
+    room: 4
+    subject: enough maths for this day too
+-
+  - teacher: aa
+    room: 1
+    subject: maths
+  - teacher: ab
+    room: 2
+    subject: more maths
+  - teacher: ac
+    room: 3
+    subject: even more maths maths
+  - teacher: ad
+    room: 4
+    subject: enough maths for this day too
+-
+  - teacher: aa
+    room: 1
+    subject: maths
+  - teacher: ab
+    room: 2
+    subject: more maths
+  - teacher: ac
+    room: 3
+    subject: even more maths maths
+  - teacher: ad
+    room: 4
+    subject: enough maths for this day too
+-
+  - teacher: aa
+    room: 1
+    subject: maths
+  - teacher: ab
+    room: 2
+    subject: more maths
+  - teacher: ac
+    room: 3
+    subject: even more maths maths
+  - teacher: ad
+    room: 4
+    subject: enough maths for this day too

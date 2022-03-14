@@ -11,8 +11,6 @@ export default validateMiddleware(
   [], // Optional allowed body parameters
   "none", // Requires auth
   async (req, res) => {
-    if (req.method !== "POST")
-      return res.status(400).json({ error: "Method not supported" });
     res.setHeader("Content-Type", "application/json");
     const db = req.mongoClient.db("users");
     const credentialsCollection = db.collection<userDocument>("credentials");

@@ -19,7 +19,7 @@ export default validateMiddleware(
       return res.status(401).json({ error: "Invalid password." });
     res.json({
       jwt: jwt.sign(
-        { username: req.body.username, id: isValid._id },
+        { username: req.body.username, role: isValid.role || "student" },
         process.env.JWT_SECRET
       ),
     });

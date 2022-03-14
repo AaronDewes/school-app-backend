@@ -16,3 +16,11 @@ export type personalData = {
   lastName: string;
   profilePicture?: string;
 };
+
+export type Lesson = {
+  teacher: string;
+  room: string;
+  subject: string;
+  // For MSS: GK/LK
+  kind?: string;
+};
