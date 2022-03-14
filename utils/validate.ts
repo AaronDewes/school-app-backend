@@ -76,6 +76,7 @@ export function validateMiddleware<
           maxAge: "1y",
         });
         if(auth === "adminJwt" && (data as { role?: string }).role !== "admin")
+          return res.status(403).json("Permission denied!");
         (req as VercelRequest & Partial<AuthAdditions["jwt"]>).userJwt =
           req.headers.authorization.split(" ")[1];
         (req as VercelRequest & Partial<AuthAdditions["jwt"]>).username = (
